@@ -1,0 +1,424 @@
+/* --- TEMEL AYARLAR VE DEĞİŞKENLER --- */
+:root {
+    --font-primary: 'Poppins', sans-serif;
+    --font-display: 'Orbitron', sans-serif;
+
+    /* ARKA PLAN FOTOĞRAFI */
+    --bg-image-url: url('/background.png');
+
+    /* Renkler */
+    --color-text-light: #f0f0f0;
+    --color-white: #ffffff;
+    --color-black: #000000;
+    --color-dark-grey: #333;
+    --color-medium-grey: #666;
+
+    /* Giriş Ekranı */
+    --color-intro-bg: var(--color-white);
+    --color-intro-header-text: var(--color-dark-grey);
+    --color-intro-title-text: #0D47A1;
+    --color-intro-description-text: var(--color-medium-grey);
+    --color-intro-button-bg: #2196F3;
+    --color-intro-button-text: var(--color-white);
+    --color-input-bg: #f1f3f5;
+    --color-input-border: #ced4da;
+    --color-input-focus-border: var(--color-intro-button-bg);
+    --color-input-icon: #adb5bd;
+
+    /* Oyun İçi & Diğer (Koyu Tema) */
+    --color-game-bg-overlay: rgba(10, 20, 40, 0.92);
+    --color-game-primary: #e94560;
+    --color-game-secondary: #53bf9d;
+    --color-game-accent: #f1c40f;
+    --color-game-success: #27ae60;
+    --color-game-error: #c0392b;
+    --color-game-light-button-bg: rgba(255, 255, 255, 0.15);
+    --color-game-light-button-border: rgba(255, 255, 255, 0.25);
+
+    /* Liderlik Tablosu */
+    --color-gold: #ffd700;
+    --color-silver: #c0c0c0;
+    --color-bronze: #cd7f32;
+
+    --shadow-small: 0 3px 6px rgba(0, 0, 0, 0.12);
+    --shadow-medium: 0 5px 12px rgba(0, 0, 0, 0.18);
+    --shadow-large: 0 8px 20px rgba(0, 0, 0, 0.22);
+    --shadow-intro-card: 0 12px 35px rgba(40, 50, 70, 0.15);
+}
+
+/* --- GENEL SAYFA STİLLERİ --- */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+body {
+    font-family: var(--font-primary);
+    background-image: var(--bg-image-url);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: var(--color-text-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* --- EKRAN GENEL STİLLERİ VE GEÇİŞLER --- */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box; 
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(25px) scale(0.98);
+    transition: opacity 0.45s cubic-bezier(0.25, 0.8, 0.25, 1),
+                transform 0.45s cubic-bezier(0.25, 0.8, 0.25, 1),
+                visibility 0s linear 0.45s;
+}
+.screen.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    transition-delay: 0s;
+}
+
+/* --- GİRİŞ EKRANI --- */
+#introScreen .intro-content {
+    background-color: var(--color-intro-bg);
+    color: var(--color-intro-description-text);
+    padding: 35px 40px; 
+    border-radius: 24px;
+    box-shadow: var(--shadow-intro-card);
+    max-width: 580px;
+    width: auto; 
+    min-width: 400px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+    animation: fadeInIntroCard 0.6s 0.2s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+    box-sizing: border-box;
+}
+@keyframes fadeInIntroCard { to { opacity: 1; transform: scale(1) translateY(0); } }
+
+#introScreenHeader {
+    font-family: var(--font-display);
+    font-size: 2.6em;
+    font-weight: 900;
+    color: var(--color-intro-header-text);
+    margin-bottom: 10px;
+    letter-spacing: 1.5px;
+}
+#aiClubLogo { max-width: 120px; margin-bottom: 12px; }
+#introScreen .intro-game-title {
+    font-family: var(--font-display);
+    font-size: 2.6em;
+    color: var(--color-intro-title-text);
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.username-container {
+    position: relative;
+    width: 85%;
+    max-width: 360px;
+    margin-bottom: 12px;
+}
+#usernameInput {
+    padding: 13px 18px 13px 48px;
+    border-radius: 12px;
+    border: 1px solid var(--color-input-border);
+    font-family: var(--font-primary);
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+    background-color: var(--color-input-bg);
+    color: var(--color-dark-grey);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+#usernameInput::placeholder { color: #aaa; }
+#usernameInput:focus {
+    border-color: var(--color-input-focus-border);
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.2);
+    outline: none;
+}
+.input-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-input-icon);
+    font-size: 1.05em;
+    pointer-events: none;
+}
+#introScreen .intro-game-description {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 22px;
+}
+.intro-buttons { display: flex; gap: 18px; align-items: center; width: 100%; justify-content: center; }
+
+/* Giriş ekranı animasyonları */
+#introScreenHeader, #aiClubLogo, .intro-game-title, .username-container, .intro-game-description, .developer-info, .intro-buttons button {
+    opacity: 0; transform: translateY(20px);
+    animation: fadeInUpElement 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+#introScreenHeader { animation-delay: 0.4s; }
+#aiClubLogo { animation-delay: 0.55s; }
+.intro-game-title { animation-delay: 0.7s; }
+.username-container { animation-delay: 0.85s; }
+.intro-game-description { animation-delay: 1s; }
+.developer-info { animation-delay: 1.1s; }
+.intro-buttons button:nth-child(1) { animation-delay: 1.2s; }
+.intro-buttons button:nth-child(2) { animation-delay: 1.3s; }
+@keyframes fadeInUpElement { to { opacity: 1; transform: translateY(0); } }
+
+/* Geliştirici Bilgisi Stilleri */
+.developer-info {
+    margin: 2px 0 6px 0; 
+    width: 100%;
+    text-align: center;
+}
+
+.developer-heading {
+    margin: 0 0 2px 0; 
+    font-size: 0.95em;
+    font-weight: 700;
+    color: var(--color-dark-grey);
+}
+
+.developer-text {
+    font-size: 0.85em;
+    color: var(--color-medium-grey);
+    margin: 0;
+    font-weight: 500;
+    font-style: italic;
+    letter-spacing: 0.3px;
+    opacity: 0.8;
+}
+
+
+.developer-text::before {
+    content: "";
+    font-weight: 600;
+    color: var(--color-dark-grey);
+}
+
+
+.intro-game-description {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 8px; 
+}
+
+
+.intro-buttons {
+    display: flex; 
+    gap: 18px; 
+    align-items: center; 
+    width: 100%; 
+    justify-content: center;
+    margin-top: 0; /* 5px -> 0 */
+}
+
+/* --- GENEL BUTON STİLLERİ --- */
+.btn {
+    font-family: var(--font-primary); font-weight: 600; padding: 14px 30px; font-size: 1.05em;
+    border-radius: 28px; border: none; cursor: pointer; transition: all 0.25s ease-out;
+    text-transform: uppercase; letter-spacing: 1px; box-shadow: var(--shadow-medium); outline: none;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn i { font-size: 0.95em; }
+.btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: var(--shadow-large); }
+.btn:active { transform: translateY(-1px) scale(0.99); box-shadow: var(--shadow-small); }
+.btn.btn-large { padding: 16px 40px; font-size: 1.15em; }
+.btn.btn-xlarge { padding: 22px 55px !important; font-size: 1.6em !important; border-radius: 35px !important; }
+
+.btn-intro-primary { background: var(--color-intro-button-bg); color: var(--color-intro-button-text); }
+.btn-intro-primary:hover { background: linear-gradient(45deg, #1e88e5, #42a5f5); }
+.btn-intro-secondary { background-color: #6c757d; color: var(--color-white); padding: 12px 26px; font-size: 0.95em;}
+.btn-intro-secondary:hover { background-color: #5a6268; }
+
+/* --- OYUN ALANI --- */
+#gameArea.screen {
+    padding: 0; 
+    background-color: transparent; 
+    backdrop-filter: none;
+    width: 100%; 
+    height: 100%; 
+    overflow: hidden;
+}
+
+#video, #gameCanvas {
+    position: absolute; 
+    top: 0; 
+    left: 0;
+    width: 100%; 
+    height: 100%;
+    object-fit: cover;
+}
+
+#video { 
+    transform: scaleX(-1); 
+    z-index: 1; 
+    opacity: 0.65;
+    background-color: #000; 
+    background-image: none; 
+}
+
+#gameCanvas { 
+    z-index: 2; 
+    background-color: transparent; 
+}
+
+
+#gameArea::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 0;
+    pointer-events: none;
+}
+
+#scoreDisplay {
+    position: absolute; top: 25px; left: 25px; font-family: var(--font-display); font-size: 2.2em;
+    font-weight: 700; color: var(--color-game-accent); background-color: rgba(15, 52, 96, 0.8);
+    padding: 12px 22px; border-radius: 14px; z-index: 3; box-shadow: var(--shadow-medium);
+    text-shadow: 0 0 10px rgba(241, 196, 15, 0.7);
+}
+#gameControls { position: absolute; top: 25px; right: 25px; z-index: 3; }
+.btn-pause { background: var(--color-game-secondary); color: var(--color-white); padding: 12px 26px; font-size: 0.95em;}
+.btn-pause:hover { background: linear-gradient(45deg, #48b38e, var(--color-game-secondary)); }
+
+/* --- DURAKLATMA EKRANI --- */
+.screen-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: var(--color-game-bg-overlay);
+    display: none; flex-direction: column; justify-content: center; align-items: center;
+    z-index: 100; opacity: 0; transition: opacity 0.3s ease-in-out;
+}
+.screen-overlay.active { display: flex; opacity: 1; }
+#countdownDisplay {
+    font-family: var(--font-display); font-size: 9em;
+    color: var(--color-game-accent); margin-bottom: 35px;
+    text-shadow: 0 0 25px rgba(241, 196, 15, 0.8);
+    transform: scale(1.2); opacity: 0;
+    animation: countdownZoom 1s ease-out forwards;
+}
+@keyframes countdownZoom {
+    0% { transform: scale(1.2); opacity: 0; } 20% { transform: scale(0.9); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Duraklatma butonları container */
+.pause-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.btn-resume { 
+    background: var(--color-game-primary); 
+    color: var(--color-white); 
+}
+.btn-resume:hover { 
+    background: linear-gradient(45deg, #d6304a, var(--color-game-primary)); 
+}
+
+/* Ana menüye dön butonu */
+#pauseMainMenuBtn {
+    background-color: var(--color-game-light-button-bg);
+    color: var(--color-text-light);
+    border: 1px solid var(--color-game-light-button-border);
+    font-size: 1.1em;
+    padding: 16px 32px;
+}
+#pauseMainMenuBtn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.35);
+    transform: translateY(-2px) scale(1.02);
+}
+
+/* --- OYUN BİTTİ EKRANI --- */
+#gameOverScreen.screen {
+    background-color: var(--color-game-bg-overlay); backdrop-filter: blur(6px); padding: 40px;
+    box-sizing: border-box; 
+}
+.game-title {
+    font-family: var(--font-display); font-size: 3em; margin-bottom: 22px; letter-spacing: 1.2px;
+    color: var(--color-game-primary); text-shadow: 0 0 18px rgba(25, 22, 204, 0.6);
+}
+#gameOverScreen #gameOverTitle { color: var(--color-game-error); text-shadow: 0 0 18px rgba(192, 57, 43, 0.7); }
+#gameOverScreen #finalScoreMessage { font-size: 1.7em; font-weight: 600; color: var(--color-text-light); margin-bottom: 10px; }
+#playerRankMessage { font-size: 1.25em; color: var(--color-game-secondary); font-weight: 600; margin-bottom: 12px; }
+#gameOverScreen #gameOverFeedback { font-size: 1.15em; color: var(--color-game-accent); margin-bottom: 30px; font-weight: 600; min-height: 2.5em; }
+#gameOverOptions { display: flex; gap: 20px; }
+.btn-success { background: var(--color-game-success); color: var(--color-white); }
+.btn-success:hover { background: linear-gradient(45deg, #229954, var(--color-game-success)); }
+.btn-light { background-color: var(--color-game-light-button-bg); color: var(--color-text-light); border: 1px solid var(--color-game-light-button-border); }
+.btn-light:hover { background-color: rgba(255, 255, 255, 0.2); border-color: rgba(255, 255, 255, 0.35); }
+
+/* --- LİDERLİK TABLOSU --- */
+#leaderboardScreen.screen {
+    background-color: var(--color-game-bg-overlay); backdrop-filter: blur(6px); padding: 30px;
+    justify-content: flex-start; gap: 22px; box-sizing: border-box;
+}
+.leaderboard-title { color: var(--color-game-accent); text-shadow: 0 0 18px rgba(241, 196, 15, 0.7); font-size: 3.3em !important; }
+.leaderboard-title i { margin: 0 15px; }
+#leaderboardListContainer {
+    background-color: rgba(15, 52, 96, 0.7); padding: 22px 28px; border-radius: 18px;
+    width: auto; min-width: 500px; max-width: 750px; max-height: 60vh; overflow-y: auto;
+    box-shadow: var(--shadow-large); border: 1px solid rgba(255,255,255,0.1);
+}
+#leaderboardList { list-style: none; padding: 0; margin: 0; text-align: left; }
+#leaderboardList li {
+    display: flex; align-items: center; padding: 14px 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 1.2em; color: var(--color-text-light); transition: background-color 0.2s ease;
+}
+#leaderboardList li:hover { background-color: rgba(255,255,255,0.05); }
+#leaderboardList li:last-child { border-bottom: none; }
+#leaderboardList li .rank-icon { font-size: 1.25em; margin-right: 15px; width: 30px; text-align: center; }
+#leaderboardList li .rank-icon.gold { color: var(--color-gold); }
+#leaderboardList li .rank-icon.silver { color: var(--color-silver); }
+#leaderboardList li .rank-icon.bronze { color: var(--color-bronze); }
+#leaderboardList li .rank-number {
+    font-weight: 700; color: var(--color-game-accent); margin-right: 15px; width: 30px; text-align: center;
+    font-size: 1.05em;
+}
+#leaderboardList li .name { flex-grow: 1; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-right: 20px; }
+#leaderboardList li .score { font-weight: 700; font-size: 1.05em; color: var(--color-game-secondary); }
+#noScoresMessage { font-size: 1.25em; color: var(--color-text-light); padding: 25px; }
+#backToIntroBtn { margin-top: auto; margin-bottom: 20px; }

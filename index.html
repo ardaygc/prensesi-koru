@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Maskotu Koru - AI CLUB</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./src/style.css">
+</head>
+
+<body>
+    <div id="app">
+        <!-- Giriş Ekranı -->
+        <div id="introScreen" class="screen active">
+            <div class="intro-content">
+                <div id="introScreenHeader">HACETTEPE AI CLUB</div>
+                <img src="/ai_club_logo.png" alt="AI Club Logo" id="aiClubLogo">
+                <h1 class="game-title intro-game-title">Prensesi Koru</h1>
+                <div class="username-container">
+                    <i class="fas fa-user input-icon"></i>
+                    <input type="text" id="usernameInput" placeholder="Adınız (Liderlik Tablosu için)">
+                </div>
+                <p class="game-description intro-game-description">
+                    Elinizi kullanarak prensesi <br>düşmanlardan koruyun!
+                </p>
+                <div class="developer-info">
+                    <p class="developer-heading">Hazırlayan:</p>
+                    <p class="developer-text">Arda Yağcı | Yapay Zeka Mühendisliği 1. Sınıf Öğrencisi</p>
+                </div>
+                <div class="intro-buttons">
+                    <button id="startGameBtn" class="btn btn-intro-primary btn-large">Oyuna Başla</button>
+                    <button id="leaderboardBtn" class="btn btn-intro-secondary">Liderlik Tablosu</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Oyun Alanı -->
+        <div id="gameArea" class="screen">
+            <video id="video" autoplay playsinline></video>
+            <canvas id="gameCanvas"></canvas>
+            <div id="scoreDisplay">Skor: 0</div>
+            <div id="gameControls">
+                <button id="pauseGameBtn" class="btn btn-secondary btn-pause">
+                    <i class="fas fa-pause"></i> Duraklat
+                </button>
+            </div>
+        </div>
+
+        <!-- Duraklatma Ekranı -->
+        <div id="pauseOverlay" class="screen-overlay">
+            <div id="countdownDisplay"></div>
+            <div class="pause-buttons">
+                <button id="resumeGameBtn" class="btn btn-resume btn-xlarge">
+                    <i class="fas fa-play"></i> Devam Et
+                </button>
+                <button id="pauseMainMenuBtn" class="btn btn-light btn-large">
+                    <i class="fas fa-home"></i> Ana Menüye Dön
+                </button>
+            </div>
+        </div>
+
+        <!-- Oyun Bitti Ekranı -->
+        <div id="gameOverScreen" class="screen">
+            <h2 id="gameOverTitle" class="game-title">Oyun Bitti!</h2>
+            <p id="finalScoreMessage">Son Skor: 0</p>
+            <p id="playerRankMessage" style="display: none;"></p>
+            <p id="gameOverFeedback"></p>
+            <div id="gameOverOptions">
+                <button id="restartGameBtn" class="btn btn-success"><i class="fas fa-redo"></i> Tekrar Oyna</button>
+                <button id="mainMenuBtn" class="btn btn-light"><i class="fas fa-home"></i> Ana Menü</button>
+            </div>
+        </div>
+
+        <!-- Liderlik Tablosu Ekranı -->
+        <div id="leaderboardScreen" class="screen">
+            <h2 class="game-title leaderboard-title">
+                <i class="fas fa-trophy"></i> Liderlik Tablosu <i class="fas fa-trophy"></i>
+            </h2>
+            <div id="leaderboardListContainer">
+                <ol id="leaderboardList"></ol>
+                <p id="noScoresMessage" style="display:none;">Henüz kayıtlı skor bulunmamaktadır.</p>
+            </div>
+            <button id="backToIntroBtn" class="btn btn-light"><i class="fas fa-arrow-left"></i> Ana Menüye Dön</button>
+        </div>
+
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
