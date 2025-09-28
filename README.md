@@ -15,7 +15,6 @@ Prensesi Koru, MediaPipe Hands ile gerçek zamanlı el takibi ve Three.js ile 2D
 - [Oyun Mekanikleri](#oyun-mekanikleri)
 - [Zorluk Sistemi](#zorluk-sistemi)
 - [Performans ve Kamera Optimizasyonu](#performans-ve-kamera-optimizasyonu)
-- [Sorun Giderme](#sorun-giderme)
 - [Lisans ve Teşekkür](#lisans-ve-teşekkür)
 
 ---
